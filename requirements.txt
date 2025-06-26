@@ -1,0 +1,5 @@
+pytest>=8.0.0
+pytest-playwright>=0.4.3
+playwright>=1.44.0
+requests>=2.31.0
+Faker>=25.0.0 
