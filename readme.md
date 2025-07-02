@@ -60,3 +60,8 @@ npm run server
 cd frontend
 npm run build
 ```
+
+## Swagger doc
+
+```
+Runs on http://localhost:5000/api-docs/
