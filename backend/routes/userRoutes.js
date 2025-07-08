@@ -5,18 +5,24 @@ import {
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  getAllUsers,
+  deleteUser
 } from '../controllers/userController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/', registerUser);
+router.get('/', protect, getAllUsers);
+router.post('/', registerUser)
 router.post('/auth', authUser);
 router.post('/logout', logoutUser);
 router
   .route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
+router
+  .route('/:id')
+  .delete(protect, deleteUser);
 
 export default router;
 
@@ -128,6 +134,49 @@ export default router;
  *     responses:
  *       200:
  *         description: Profile updated
+ *       404:
+ *         description: User not found
+ */
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: Get all users
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *                   email:
+ *                     type: string
+ */
+
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   delete:
+ *     summary: Delete a user by ID
+ *     tags: [Users]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the user to delete
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User deleted
  *       404:
  *         description: User not found
  */
