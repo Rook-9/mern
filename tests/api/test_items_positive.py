@@ -56,3 +56,28 @@ def test_logout(registered_user):
     assert response.status_code == 200
     assert response.json().get("message") == "Logged out successfully"
 
+
+@pytest.mark.positive
+def test_get_all_users(auth_session):
+    """Test getting all users."""
+    response = auth_session.get(f"{BASE_URL}/api/users")
+    assert response.status_code == 200
+    users = response.json()
+    assert isinstance(users, list)
+    assert len(users) > 0
+    for user in users:
+        assert "email" in user
+        assert "name" in user
+        assert "_id" in user
+
+@pytest.mark.positive
+def test_delete_user(auth_session, registered_user):
+    """Test deleting the user."""
+    response = auth_session.delete(f"{BASE_URL}/api/users/profile")
+    assert response.status_code == 200
+    assert response.json().get("message") == "User deleted successfully"
+
+    # Verify the user is no longer retrievable
+    response = auth_session.get(f"{BASE_URL}/api/users/profile")
+    assert response.status_code == 401
+    assert "Not authorized, token failed" in response.text

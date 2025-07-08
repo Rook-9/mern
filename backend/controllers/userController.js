@@ -74,6 +74,11 @@ const logoutUser = (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
+    if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
   if (user) {
     res.json({
       _id: user._id,
@@ -135,6 +140,21 @@ const deleteUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'User removed' });
 });
 
+// @desc    Delete current user
+// @route   DELETE /api/users/profile
+// @access  Private
+const deleteUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  await user.deleteOne();
+
+  res.status(200).json({ message: 'User deleted successfully' });
+});
 
 export {
   authUser,
@@ -143,5 +163,6 @@ export {
   getUserProfile,
   updateUserProfile,
   getAllUsers,
-  deleteUser
+  deleteUser,
+  deleteUserProfile
 };

@@ -6,7 +6,8 @@ import {
   getUserProfile,
   updateUserProfile,
   getAllUsers,
-  deleteUser
+  deleteUser,
+  deleteUserProfile
 } from '../controllers/userController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -19,7 +20,8 @@ router.post('/logout', logoutUser);
 router
   .route('/profile')
   .get(protect, getUserProfile)
-  .put(protect, updateUserProfile);
+  .put(protect, updateUserProfile)
+  .delete(protect, deleteUserProfile);
 router
   .route('/:id')
   .delete(protect, deleteUser);
@@ -179,4 +181,21 @@ export default router;
  *         description: User deleted
  *       404:
  *         description: User not found
+ */
+
+/**
+ * @swagger
+ * /api/users/profile:
+ *   delete:
+ *     summary: Delete current user profile
+ *     tags: [Users]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: User profile deleted successfully
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error 
  */
