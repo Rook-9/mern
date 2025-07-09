@@ -20,3 +20,8 @@ def exist_user():
             "email": "test@gmail.com",
             "password": "1234"
         }
+
+@pytest.fixture
+def base_url():
+    """Base URL for the API."""
+    return "http://localhost:3000"
