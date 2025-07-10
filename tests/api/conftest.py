@@ -38,3 +38,16 @@ def auth_session(registered_user):
     })
     assert login_response.status_code == 200
     return session  # this session has the jwt cookie set
+
+
+@pytest.fixture
+def cleanup_user(registered_user):
+    """Cleanup user after tests."""
+    yield
+    # Delete the user after the test
+    response = requests.delete(f"{BASE_URL}/api/users", json={
+        "email": registered_user["email"],
+        "password": registered_user["password"]
+    })
+    assert response.status_code == 204
+    assert response.text == ""  # Ensure no content is returned

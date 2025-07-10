@@ -21,7 +21,3 @@ def exist_user():
             "password": "1234"
         }
 
-@pytest.fixture
-def base_url():
-    """Base URL for the API."""
-    return "http://localhost:3000"

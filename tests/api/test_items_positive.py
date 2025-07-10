@@ -2,7 +2,7 @@ import requests
 import pytest
 from faker import Faker
 from tests.api.conftest import BASE_URL
-from tests.api.conftest import user_data, registered_user, auth_session
+from tests.api.conftest import user_data, registered_user, auth_session, cleanup_user
 
 
 @pytest.mark.positive
